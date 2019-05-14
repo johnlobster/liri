@@ -19,6 +19,17 @@ var logfileName = "log.txt";
 
 function liriHelp() {
     console.log("How to use liri\n");
+    console.log(sprintf("    %s","node liri <command> (<arguments>)\n"));
+    console.log("Commands:");
+    console.log(sprintf("    %-20s %s", "movie-this ", "<movie name>"));
+    console.log(sprintf("    %-20s %s", "concert-this ", "<band name>"));
+    console.log(sprintf("    %-20s %s", "spotify-this-song ", "<movie name>"));
+    console.log(sprintf("    %-20s %s", "do-what-it says ", "no arguments, reads command from file " + randomFileName));
+    console.log(sprintf("    %-20s %s", "help|-help|--help", "outputs this usage information\n"));
+    console.log(sprintf("    %s","liri logs all successful commands to " + logfileName));
+    console.log("\n");
+    console.log("Example:");
+    console.log(sprintf("    %s","node liri movie-this The good the bad and the ugly\n"));
     process.exit();
 }
 
@@ -257,7 +268,8 @@ var args = process.argv.slice(3);
 console.log(chalk.magenta("liri is thinking ......\n"));
 
 // set up log file
-fs.appendFileSync(logfileName, "\nOn " + moment().format("Do MMMM YYYY hh:mma") + " liri processed \" " + command + " " + args.join(" ") + "\"\n", function (error) {
+fs.appendFileSync(logfileName, "\nOn " + moment().format("Do MMMM YYYY hh:mma") + " liri processed \"" 
+    + command + " " + args.join(" ") + "\"\n", function (error) {
     if (error) {
         console.log(chalk.red("Logfile append error: " + error));
     }
