@@ -25,9 +25,9 @@ function liriHelp() {
 // get movie data
 function omdbAccess() {
     var movieName = "";
-    if ( args === []) {
+    if ( args.length === 0) {
         // no movie given so ...
-        movieName = "mr.+nobody";
+        movieName = "mr+nobody";
         console.log("No movie name given ...\n");
     }
     else {
@@ -36,7 +36,37 @@ function omdbAccess() {
     // console.log("Movie name " + movieName);
     axios.get("http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy").then(
     function (response) {
-        console.log("The movie's rating is: " + response.data.imdbRating);
+        myLog(sprintf("     %-25s  %s", "Title", response.data.Title), "green");
+        myLog(sprintf("     %-25s  %s", "Year released", response.data.Year), "green");
+        myLog(sprintf("     %-25s  %s", "IMDB rating", response.data.Ratings[0].Value), "green");
+        myLog(sprintf("     %-25s  %s", "Rotten tomatoes rating", response.data.Ratings[1].Value),"green");
+        myLog(sprintf("     %-25s  %s", "Country produced", response.data.Country), "green");
+        myLog(sprintf("     %-25s  %s", "Language",response.data.Language),"green");
+        // plot needs to be multiline to be readable
+        var plotArr = response.data.Plot.split(" ");
+        var index = 0;
+        var line = "";
+        var charCount = 0;
+        // first line includes word Plot
+        while (charCount < 60) {
+            line += plotArr[index] + " ";
+            charCount += plotArr[index].length + 1;
+            index += 1;
+        }
+        myLog(sprintf("     %-25s  %s", "Plot", line), "green");
+        // other lines
+        while ( index < plotArr.length) {
+            charCount = 0;
+            line = "";
+            while ((charCount < 60) && (index < plotArr.length)) {
+                line += plotArr[index] + " ";
+                charCount += plotArr[index].length + 1;
+                index += 1;
+            }
+            myLog(sprintf("     %-25s  %s", "", line), "green");
+            
+        }
+        myLog(sprintf("     %-25s  %s", "Actors", response.data.Actors + "\n"), "green");                    
     })
     .catch(function (error) {
         if (error.response) {
