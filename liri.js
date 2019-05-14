@@ -23,7 +23,7 @@ function liriHelp() {
     console.log("Commands:");
     console.log(sprintf("    %-20s %s", "movie-this ", "<movie name>"));
     console.log(sprintf("    %-20s %s", "concert-this ", "<band name>"));
-    console.log(sprintf("    %-20s %s", "spotify-this-song ", "<movie name>"));
+    console.log(sprintf("    %-20s %s", "spotify-this-song ", "<song name>"));
     console.log(sprintf("    %-20s %s", "do-what-it says ", "no arguments, reads command from file " + randomFileName));
     console.log(sprintf("    %-20s %s", "help|-help|--help", "outputs this usage information\n"));
     console.log(sprintf("    %s","liri logs all successful commands to " + logfileName));
@@ -109,20 +109,37 @@ function bandAccess() {
     var name = "";
     if (args.length === 0) {
         // no band specified
-        console.log(chalk.red("\nNo band name specified"));
+        console.log(chalk.red("\nNo band name specified\n"));
         liriHelp();
 
     }
     else {
         name = args.join("+").toLowerCase();
     }
-    axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp").then(
-    function (response) {
-        console.log(response);
-        console.log("*****************************");
-        console.log(response.data);
-        console.log(response.data.datetime);
-        console.log(response.data.venue);
+    axios.get("https://rest.bandsintown.com/artists/" + name + "/events?app_id=codingbootcamp&date=upcoming").then(
+        function (response) {
+            var eventDate = "";
+            var caEvents = [];
+            // select only events in california
+            for (let i = 0; i < response.data.length; i++) {
+                if (response.data[i].venue.region === "CA") {
+                    caEvents.push(response.data[i]);
+                }
+            }
+            if (caEvents.length === 0) {
+                console.log(chalk.red("Could not find any upcoming concerts for " + name.split("+").join(" ") + " in california\n"));
+            }
+            else {
+                // print out upcoming concert data
+                myLog(sprintf("  %-15s %-40s %-12s %-s","City", "Venue", "Date", "Lineup\n"), "green");
+                for (let i = 0; i < caEvents.length; i++ ){
+                    if (caEvents[i].venue.region === "CA" ) {
+                        eventDate = moment(caEvents[i].datetime).format("MM/DD/YYYY");
+                        myLog(sprintf("  %-15s %-40s %-12s %-s", caEvents[i].venue.city, 
+                            caEvents[i].venue.name, eventDate, caEvents[i].lineup), "green");
+                    }
+                }
+            }
 
     })
     .catch(function (error) {
@@ -160,7 +177,7 @@ function spotifyAccess() {
 
 
 function spotifyGet() {
-    spotify.search({ type: 'track', query: songName, limit: 20 }, function (err, data) {
+    spotify.search({ type: 'track', query: songName, limit: 40 }, function (err, data) {
         if (err) {
             return console.log(chalk.red('Error occurred in spotify access : ' + err + "\n"));
         } 
@@ -268,8 +285,15 @@ var args = process.argv.slice(3);
 console.log(chalk.magenta("liri is thinking ......\n"));
 
 // set up log file
-fs.appendFileSync(logfileName, "\nOn " + moment().format("Do MMMM YYYY hh:mma") + " liri processed \"" 
-    + command + " " + args.join(" ") + "\"\n", function (error) {
+var logString = "";
+if ( args.length < 1) {
+    logString = "\nOn " + moment().format("Do MMMM YYYY hh:mma") + " liri processed \"" + command + "\"\n\n";
+}
+else {
+    logString = "\nOn " + moment().format("Do MMMM YYYY hh:mma") + " liri processed \""
+        + command + " " + args.join(" ") + "\"\n\n";
+}
+fs.appendFileSync(logfileName, logString, function (error) {
     if (error) {
         console.log(chalk.red("Logfile append error: " + error));
     }
