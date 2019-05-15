@@ -3,4 +3,4 @@ node_modules
 .env
 desktop.ini
 temp.txt
-log.txt
+/log.txt

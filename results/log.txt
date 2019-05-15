@@ -1,0 +1,32 @@
+
+On 14th May 2019 06:51pm liri processed "spotify-this-song fairground attraction"
+
+     Artist           Fairground Attraction
+     Song name        Fairground Attraction
+     Web link         https://open.spotify.com/album/6va9WpXLiBCPS86QWKgOFi
+     Album            The First Of A Million Kisses
+
+On 14th May 2019 06:58pm liri processed "concert-this iron maiden"
+
+  City            Venue                                    Date         Lineup
+
+  Sacramento      Golden 1 Center                          09/09/2019   Iron Maiden,Ravenage,The Raven Age
+  Oakland         Oracle Arena                             09/10/2019   Iron Maiden,Ravenage,The Raven Age
+  Los Angeles     Banc of California Stadium               09/14/2019   Iron Maiden,Fozzy,The Raven Age
+
+On 14th May 2019 07:00pm liri processed "movie-this The good the bad and the ugly"
+
+     Title                      The Good, the Bad and the Ugly
+     Year released              1966
+     IMDB rating                8.9/10
+     Rotten tomatoes rating     97%
+     Country produced           Italy, Spain, West Germany
+     Language                   Italian, English, Spanish
+     Plot                       A bounty hunting scam joins two men in an uneasy alliance against 
+                                a third in a race to find a fortune in gold buried in a remote 
+                                cemetery. 
+     Actors                     Eli Wallach, Clint Eastwood, Lee Van Cleef, Aldo Giuffrè
+
+
+On 14th May 2019 07:00pm liri processed "fred"
+
