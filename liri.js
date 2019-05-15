@@ -13,7 +13,7 @@ var sprintf = require('sprintf-js').sprintf; // string formatter
 var chalk = require("chalk"); // allows for colored text
 var fs = require("fs");
 
-var randomFileName = "temp.txt"; // default is random.txt
+var randomFileName = "random.txt"; // default is random.txt
 var songName = ""; // global variable so can be called by recursive function spotifyGet
 var logfileName = "log.txt";
 
@@ -98,12 +98,6 @@ function omdbAccess() {
     });
 }
 
-// Name of the venue
-
-// Venue location
-
-// Date of the Event(use moment to format this as "MM/DD/YYYY")
-// "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
 
 function bandAccess() {
     var name = "";
@@ -183,6 +177,7 @@ function spotifyGet() {
         } 
         else {
             // spotify doesn't search for exact track, so need to search results
+            // console.log("Spotify " + data.tracks.items.length + " results");
             for (let i = 0; i < data.tracks.items.length; i++) {
                 // console.log(data.tracks.items[i].name);
                 if (songName === data.tracks.items[i].name.toLowerCase()) {
