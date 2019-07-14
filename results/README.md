@@ -2,7 +2,7 @@
 The file log.txt contains a log of liri accessing the following 
 
 #### song request
-<img src="spotify.png" alt="spotify example">
+<img src="spotify.PNG" alt="spotify example">
 
 #### band request
 <img src="bandsintown.PNG" alt="band example">
